@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Result Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result-box {
+            margin-top: 20px;
+            text-align: left;
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Check Exam Result</h2>
+    <input type="text" id="rollInput" placeholder="Enter Roll Number (e.g., 101, 102)">
+    <br>
+    <button onclick="checkResult()">Submit</button>
+
+    <div id="resultDisplay" class="result-box" style="display: none;"></div>
+</div>
+
+<script>
+    // Mock database of student results
+    const resultsDatabase = {
+        "101": { name: "Rahul Kumar", math: 85, science: 90, english: 78, status: "Pass" },
+        "102": { name: "Priya Sharma", math: 92, science: 88, english: 95, status: "Pass" },
+		"104": { name: "Priyanka Sharma", math: 92, science: 88, english: 95, status: "Pass" },
+        "103": { name: "Amit Verma", math: 40, science: 35, english: 45, status: "Fail" }
+    };
+
+    function checkResult() {
+        const rollNumber = document.getElementById("rollInput").value.trim();
+        const displayBox = document.getElementById("resultDisplay");
+
+        // Clear previous results
+        displayBox.innerHTML = "";
+        displayBox.style.display = "block";
+
+        // Check if input is empty
+        if (rollNumber === "") {
+            displayBox.innerHTML = "<p style='color: red;'>Please enter a roll number.</p>";
+            return;
+        }
+
+        // Look up roll number in database
+        const student = resultsDatabase[rollNumber];
+
+        if (student) {
+            displayBox.innerHTML = `
+                <p><strong>Name:</strong> ${student.name}</p>
+                <p><strong>Roll No:</strong> ${rollNumber}</p>
+                <p><strong>Math:</strong> ${student.math}</p>
+                <p><strong>Science:</strong> ${student.science}</p>
+                <p><strong>English:</strong> ${student.english}</p>
+                <p><strong>Status:</strong> <span style="color: ${student.status === 'Pass' ? 'green' : 'red'};">${student.status}</span></p>
+            `;
+        } else {
+            displayBox.innerHTML = "<p style='color: red;'>Roll number not found. Please try 101, 102, or 103.</p>";
+        }
+    }
+</script>
+
+</body>
+</html>
